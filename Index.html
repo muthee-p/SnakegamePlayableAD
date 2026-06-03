@@ -1,259 +1,61 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Snake Playable</title>
-
-    <style>
-        html,
-        body {
-            margin: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            background: #111;
-        }
-
-        #gameContainer {
-            width: 100vw;
-            height: 100vh;
-
-            display: flex;
-            flex-direction: column;
-        }
-
-        #dialoguePanel {
-            height: 20%;
-            min-height: 120px;
-
-            display: flex;
-            align-items: center;
-
-            padding: 10px;
-            box-sizing: border-box;
-
-            background: #222;
-        }
-
-        #character {
-            height: 90px;
-            width: 90px;
-            object-fit: contain;
-        }
-
-        #dialogueText {
-            flex: 1;
-            color: white;
-            font-size: 22px;
-            margin-left: 12px;
-        }
-
-        #game {
-            flex: 1;
-            background: #1b1b1b;
-        }
-
-        #controls {
-            height: 22%;
-            min-height: 160px;
-
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-
-            gap: 10px;
-        }
-
-        .row {
-            display: flex;
-            gap: 20px;
-        }
-
-        #controls img {
-            width: 72px;
-            height: 72px;
-            object-fit: contain;
-        }
-    </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>Snake Playable Ad</title>
+  <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-    <div id="gameContainer">
+<div id="gameContainer">
 
-        <div id="dialoguePanel">
-            <img id="character" src="Ras.png">
-            <div id="dialogueText">
-                Grandma: Collect all the apples!
-            </div>
-        </div>
-        <div id="score">0</div>
-
-        <canvas id="game"></canvas>
-
-        <div id="controls">
-            <img id="up" src="btn_up.png">
-
-            <div class="row">
-                <img id="left" src="btn_left.png">
-                <img id="down" src="btn_down.png">
-                <img id="right" src="btn_right.png">
-            </div>
-        </div>
-
+  <div id="dialoguePanel">
+    <img id="character" src="Ras.png" alt="Character"
+         onerror="this.style.background='#1a3a5c'; this.src='';">
+    <div id="dialogueBubble">
+      <div id="speakerName">Grandma</div>
+      <div id="dialogueText">Collect all the apples!</div>
     </div>
+  </div>
 
-    <div id="endcard">
-        <h1>Great Job!</h1>
-        <h2 id="finalScore"></h2>
-        <button onclick="downloadGame()">
-            Play Now
-        </button>
+  <div id="scoreBar">
+    <div id="scoreDisplay">SCORE: <span id="scoreNum">0</span></div>
+</div>
+
+<canvas id="game"></canvas>
+
+<div id="controls">
+    <div class="dpad-row" id="btn-up" >
+        <img id="control-btn" src="btn_up.png" alt="btn">
     </div>
+    <div class="dpad-row">
+        <div class="dpad-btn" id="btn-left">
+            <img id="control-btn" src="btn_left.png" alt="btn"
+               ></div>
+        <div class="dpad-center"></div>
+        <div class="dpad-btn" id="btn-right">
+            <img id="control-btn" src="btn_right.png" alt="btn"
+                ></div>
+    </div>
+    <div class="dpad-row">
+        <div class="dpad-btn" id="btn-down">
+            <img id="control-btn" src="btn_down.png" alt="btn"
+                ></div>
+    </div>
+</div>
 
-    <script>
+</div>
 
-        const canvas = document.getElementById("game");
-        const ctx = canvas.getContext("2d");
+<div id="endcard">
+    <div class="stars">⭐⭐⭐</div>
+  <h1>Great Job!</h1>
+  <div class="subtitle">Think you can do better?</div>
+  <div id="finalScore"></div>
+  <button class="cta-btn" onclick="downloadGame()">Play Now →</button>
+</div>
 
-        function resizeCanvas() {
-            canvas.width = canvas.clientWidth;
-            canvas.height = canvas.clientHeight;
-        }
-
-        resizeCanvas();
-        window.addEventListener("resize", resizeCanvas);
-
-        const cell = 25;
-
-        let score = 0;
-
-        let snake = [
-            { x: 8, y: 8 }
-        ];
-
-        let dir = { x: 1, y: 0 };
-
-        let food = spawnFood();
-
-        function spawnFood() {
-            return {
-                x: Math.floor(Math.random() * 20),
-                y: Math.floor(Math.random() * 20)
-            };
-        }
-
-        function update() {
-
-            let head = {
-                x: snake[0].x + dir.x,
-                y: snake[0].y + dir.y
-            };
-
-            if (head.x < 0) head.x = 20;
-            if (head.x > 20) head.x = 0;
-            if (head.y < 0) head.y = 20;
-            if (head.y > 20) head.y = 0;
-
-            snake.unshift(head);
-
-            if (head.x === food.x && head.y === food.y) {
-
-                score++;
-
-                document.getElementById("score").innerText = score;
-
-                food = spawnFood();
-
-            } else {
-                snake.pop();
-            }
-        }
-
-        function draw() {
-
-            const headSprite = new Image();
-            headSprite.src = "head.png";
-
-            const bodySprite = new Image();
-            bodySprite.src = "body.png";
-
-            const tailSprite = new Image();
-            tailSprite.src = "tail.png";
-
-            snake.forEach((segment, index) => {
-                let sprite;
-
-                if (index === 0)
-                    sprite = headSprite;
-                else if (index === snake.length - 1)
-                    sprite = tailSprite;
-                else
-                    sprite = bodySprite;
-
-                ctx.drawImage(
-                    sprite,
-                    segment.x * cell,
-                    segment.y * cell,
-                    cell,
-                    cell
-                );
-            });
-        }
-
-        function gameLoop() {
-            update();
-            draw();
-        }
-
-        const interval = setInterval(gameLoop, 120);
-
-        setTimeout(() => {
-
-            clearInterval(interval);
-
-            document.getElementById("endcard").style.display = "flex";
-
-            document.getElementById("finalScore").innerText =
-                "Score: " + score;
-
-        }, 15000);
-
-        document.getElementById("up").onclick = () => {
-            if (dir.y !== 1)
-                dir = { x: 0, y: -1 };
-        };
-
-        document.getElementById("down").onclick = () => {
-            if (dir.y !== -1)
-                dir = { x: 0, y: 1 };
-        };
-
-        document.getElementById("left").onclick = () => {
-            if (dir.x !== 1)
-                dir = { x: -1, y: 0 };
-        };
-
-        document.getElementById("right").onclick = () => {
-            if (dir.x !== -1)
-                dir = { x: 1, y: 0 };
-        };
-
-        function downloadGame() {
-
-            // Replace with store link
-
-            window.open(
-                "https://play.google.com/store/apps/details?id=com.Prue.Nyoksgame",
-                "_blank"
-            );
-        }
-
-    </script>
+<script src="main.js"></script>
 
 </body>
-
 </html>
