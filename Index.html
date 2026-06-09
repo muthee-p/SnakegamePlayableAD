@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <link rel="icon" href="media/Tiny snake.png" type="image/x-icon">
   <title>Snake Playable Ad</title>
   <link rel="stylesheet" href="style.css">
 </head>
@@ -11,7 +12,7 @@
 <div id="gameContainer">
 
   <div id="dialoguePanel">
-    <img id="character" src="Ras.png" alt="Character"
+    <img id="character" src="media/Ras.png" alt="Character"
          onerror="this.style.background='#1a3a5c'; this.src='';">
     <div id="dialogueBubble">
       <div id="speakerName">Grandma</div>
@@ -27,20 +28,20 @@
 
 <div id="controls">
     <div class="dpad-row" id="btn-up" >
-        <img id="control-btn" src="btn_up.png" alt="btn">
+        <img id="control-btn" src="media/btn_up.png" alt="btn">
     </div>
     <div class="dpad-row">
         <div class="dpad-btn" id="btn-left">
-            <img id="control-btn" src="btn_left.png" alt="btn"
+            <img id="control-btn" src="media/btn_left.png" alt="btn"
                ></div>
         <div class="dpad-center"></div>
         <div class="dpad-btn" id="btn-right">
-            <img id="control-btn" src="btn_right.png" alt="btn"
+            <img id="control-btn" src="media/btn_right.png" alt="btn"
                 ></div>
     </div>
     <div class="dpad-row">
         <div class="dpad-btn" id="btn-down">
-            <img id="control-btn" src="btn_down.png" alt="btn"
+            <img id="control-btn" src="media/btn_down.png" alt="btn"
                 ></div>
     </div>
 </div>
@@ -48,8 +49,10 @@
 </div>
 
 <div id="endcard">
-    <div class="stars">⭐⭐⭐</div>
-  <h1>Great Job!</h1>
+  <img id="character-endcard" src="media/Tiny snake.png" alt="Character"
+         onerror="this.style.background='#1a3a5c'; this.src='';">
+    <div id="stars" class="stars"></div>
+  <h1>Nyoks Game!</h1>
   <div class="subtitle">Think you can do better?</div>
   <div id="finalScore"></div>
   <button class="cta-btn" onclick="downloadGame()">Play Now →</button>
