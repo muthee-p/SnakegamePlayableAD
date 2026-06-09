@@ -36,7 +36,12 @@ setInterval(showNextDialogue, 4000);
 const canvas = document.getElementById("game");
 const ctx = canvas.getContext("2d");
 
-const CELL = 20; 
+ctx.imageSmoothingEnabled = false;
+ctx.webkitImageSmoothingEnabled = false;
+ctx.mozImageSmoothingEnabled = false;
+ctx.msImageSmoothingEnabled = false;
+
+const CELL = 24; 
 let cols, rows;
 
 const headImg = new Image();
@@ -69,6 +74,7 @@ function resizeCanvas() {
   canvas.height = canvas.clientHeight || canvas.offsetHeight;
   cols = Math.floor(canvas.width / CELL);
   rows = Math.floor(canvas.height / CELL);
+  ctx.imageSmoothingEnabled = false;
 }
 
 window.addEventListener("resize", () => { resizeCanvas(); });
